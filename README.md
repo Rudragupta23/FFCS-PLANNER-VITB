@@ -7,7 +7,7 @@ Website link - [www.ffcsplannervitb.com](https://ffcsplannervitb.vercel.app/)
 ![Weekly Timetable Grid](timetable.png)
 
 ### About:
-The **FFCS Planner - VITB** is a specialized tool built to simplify the complex process of timetable creation. It allows students to visualize their weekly schedule, manage credit limits, and detect slot clashes in real-time. The application is designed with a "Neon-Dark" aesthetic to provide a modern, developer-centric user experience while ensuring registration is error-free.
+The **FFCS Planner - VITB** is a specialized tool built to simplify the complex process of timetable creation. It allows students to visualize their weekly schedule, manage credit limits, and detect slot clashes in real-time.
 
 ### Key Features:
 * **Three-Draft System**: Save and switch between three different schedule versions (Draft 1, 2, and 3) to compare different faculty or slot combinations.
