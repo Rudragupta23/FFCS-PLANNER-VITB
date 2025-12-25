@@ -1,7 +1,7 @@
 # FFCS Planner - VITB
 A high-performance, interactive web application designed to help VIT Bhopal students plan their course schedules efficiently during the Fully Flexible Credit System (FFCS) registration.
 
-Website link - [www.ffcsplanner-vitb.app](https://rudragupta23.github.io/FFCS-PLANNER-VITB/)
+Website link - [www.ffcsplannervitb.com](https://ffcsplannervitb.vercel.app/)
 
 ### Project Preview:
 ![Weekly Timetable Grid](timetable.png)
