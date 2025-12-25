@@ -31,12 +31,12 @@ The **FFCS Planner - VITB** is a specialized tool built to simplify the complex 
 ### Project Structure:
 ```
 /ffcs-planner-vitb
-|-- README.md       # Project documentation
-|-- index.html      # Main application structure
-|-- style.css       # Neon-dark theme and responsive layouts
-|-- script.js      # Core logic (clash detection, sharing, exports)
-|-- logo.png        # Project branding
-|-- timetable.png   # Preview image for documentation
+|-- README.md      
+|-- index.html      
+|-- style.css       
+|-- script.js     
+|-- logo.png        
+|-- timetable.png   
 
 ```
 ### Installation
