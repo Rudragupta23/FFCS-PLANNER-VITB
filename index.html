@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFCS PLANNER-VITB </title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div id="toast" class="toast">Action Successful! ✅</div>
+
+    <div id="coursesOverlay" class="overlay">
+        <div class="overlay-content glass-card">
+            <div class="overlay-header">
+                <h2 class="section-heading" style="margin:0;">Registered Courses</h2>
+                <button class="close-btn" onclick="toggleOverlay()">×</button>
+            </div>
+            <div id="overlayCourseList" class="overlay-list"></div>
+        </div>
+    </div>
+
+    <div id="feedbackOverlay" class="overlay">
+        <div class="overlay-content glass-card">
+            <div class="overlay-header">
+                <h2 class="section-heading" style="margin:0;">Send Feedback</h2>
+                <button class="close-btn" onclick="toggleFeedback()">×</button>
+            </div>
+            <form id="feedbackForm">
+                <input type="hidden" name="subject" value="Feedback from FFCS PLANNER-VITB">
+                <div class="field">
+                    <label>Your Name</label>
+                    <input type="text" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="field">
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="email@example.com" required>
+                </div>
+                <div class="field">
+                    <label>Message</label>
+                    <textarea name="message" rows="4" style="width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: var(--text-main); outline: none; box-sizing: border-box; resize: vertical;" placeholder="How can we improve?" required></textarea>
+                </div>
+                <button type="submit" id="feedbackSubmit" class="btn-neon full-width animate-btn">Send Message</button>
+            </form>
+            <div id="feedbackResult" style="margin-top: 15px; text-align: center; font-size: 0.9rem;"></div>
+        </div>
+    </div>
+
+    <div class="neon-bg"></div>
+    
+    <nav class="navbar glass-card">
+        <div class="nav-container">
+            <div class="nav-logo logo-hover-effect" onclick="location.reload()">
+                <img src="logo.png" alt="FFCS Logo" class="site-logo">
+                <span>FFCS PLANNER-VITB</span>
+            </div>
+
+            <div class="version-tabs">
+                <button class="tab-btn active" id="tab1" onclick="switchVersion(1)">Draft 1</button>
+                <button class="tab-btn" id="tab2" onclick="switchVersion(2)">Draft 2</button>
+                <button class="tab-btn" id="tab3" onclick="switchVersion(3)">Draft 3</button>
+            </div>
+
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-badge">Credits: <b id="creditCount">0</b> / 29</div>
+                    <div class="stat-badge">Courses: <b id="courseCount">0</b></div>
+                </div>
+                <button class="nav-btn-link animate-btn" onclick="toggleOverlay()">Registered Courses</button>
+                <button class="nav-btn-link animate-btn" onclick="toggleFeedback()" style="border-color: var(--neon); color: var(--neon);">Feedback</button>
+                <button id="themeToggle" class="btn-icon animate-btn" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-layout">
+        <aside class="sidebar glass-card">
+            <h3 class="section-heading">Course Entry</h3>
+            <div class="input-section">
+                <div class="field">
+                    <label>Subject Name</label>
+                    <input type="text" id="subName" placeholder="Subject name">
+                </div>
+                <div class="field">
+                    <label>Faculty Name</label>
+                    <input type="text" id="facName" placeholder="Faculty name">
+                </div>
+                <div class="field">
+                    <label>Building (Venue)</label>
+                    <select id="venueName">
+                        <option value="AB-1">AB-1</option>
+                        <option value="AB-2">AB-2</option>
+                        <option value="LC">Lab Complex</option>
+                        <option value="Arch">Architecture</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Faculty Slots</label>
+                    <input type="text" id="prefSlots" placeholder="e.g. A11-A12-A13">
+                    <button onclick="suggestSlots()" class="btn-outline animate-btn" style="margin-top:8px; font-size:0.75rem; padding:8px; border-color:var(--neon); width: 100%;">Check Availability</button>
+                </div>
+                <div class="field">
+                    <label>Credits</label>
+                    <select id="courseCredits">
+                        <option value="4">4 Credits</option>
+                        <option value="3">3 Credits</option>
+                        <option value="2">2 Credits</option>
+                        <option value="1">1 Credit</option>
+                    </select>
+                </div>
+                <button id="submitBtn" onclick="assignSubject()" class="btn-neon full-width animate-btn">Assign to Grid</button>
+            </div>
+
+            <div class="action-section">
+                <button onclick="copyCourseList()" class="btn-outline full-width animate-btn" style="border-color: var(--neon);">📋 Copy Course List</button>
+                <button onclick="generateShareLink()" class="btn-share-vibrant animate-btn">
+                🔗 SHARE DRAFT LINK
+                </button>
+                <button onclick="downloadPNG()" class="btn-outline full-width animate-btn">Export in PNG</button>
+                <button onclick="downloadPDF()" class="btn-outline full-width animate-btn">Export in PDF</button>
+                <button onclick="resetApp()" class="btn-danger full-width animate-btn">CLEAR DATA</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="glass-card" id="captureArea">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 class="section-heading">Weekly Timetable Grid</h3>
+                    <div id="sprintLegend" style="font-size: 0.75rem; color: #ff9800; display: none;">🏃‍♂️ = Building Change Sprint</div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="timetable">
+                        <thead><tr id="headerRow"></tr></thead>
+                        <tbody id="timetableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="section-header-flex">
+                    <h3 class="section-heading">My Registered Courses</h3>
+                    <input type="text" id="courseSearch" placeholder="Search By Subject or Faculty..." onkeyup="render()">
+                </div>
+                <div class="table-responsive">
+                    <table id="summaryTable">
+                        <thead>
+                            <tr>
+                                <th>SR. NO</th>
+                                <th>SLOTS</th>
+                                <th>SUBJECT</th>
+                                <th>FACULTY</th>
+                                <th>BUILDING</th>
+                                <th>CREDITS</th>
+                                <th>COLOR</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summaryBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2025 FFCS PLANNER-VITB | Select smart. Study better.</p>
+            <p>Made with ❤️ for VITians | <span class="author">Rudra Gupta</span></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
