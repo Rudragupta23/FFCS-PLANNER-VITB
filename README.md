@@ -38,7 +38,8 @@ The **FFCS Planner - VITB** is a specialized tool built to simplify the complex 
 * **html2canvas**: For generating schedule images.
 * **jspdf**: For PDF document generation.
 * **Web3Forms**: For handling user feedback submissions.
-**Deployment**: Vercel.
+* **Deployment**: Vercel.
+
 
 ### Project Structure:
 ```
