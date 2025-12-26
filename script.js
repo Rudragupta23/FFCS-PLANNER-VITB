@@ -55,8 +55,7 @@ function switchVersion(v) {
     editingId = null;
     currentTempSelection = [];
     document.getElementById('submitBtn').innerText = "Assign to Grid";
-    ['subName', 'facName', 'prefSlots'].forEach(id => document.getElementById(id).value = '');
-    loadData();
+['subName', 'facName'].forEach(id => document.getElementById(id).value = '');    loadData();
     showToast(`Switched to Draft ${v} 📂`);
 }
 
@@ -242,7 +241,7 @@ function assignSubject() {
     }
 
     currentTempSelection = [];
-    subInput.value = ''; facInput.value = ''; document.getElementById('prefSlots').value = '';
+    subInput.value = ''; facInput.value = '';
     saveData(); render();
 }
 
@@ -310,27 +309,6 @@ function render() {
 
 // EXPORTS
 
-function suggestSlots() {
-    const input = document.getElementById('prefSlots').value.toUpperCase().replace(/\s/g, '');
-    if(!input) return alert("Enter slot codes separated by hyphens (e.g. A11-A12)");
-    const inputSlots = input.split('-');
-    let found = 0;
-    inputSlots.forEach(slot => {
-        const el = document.querySelector(`[data-slot="${slot}"]`);
-        if(el && !assignedSubjects.some(s => s.slots.includes(slot))) {
-            const clash = clashMap[slot];
-            if(!currentTempSelection.includes(clash) && !assignedSubjects.some(s => s.slots.includes(clash))) {
-                if(!currentTempSelection.includes(slot)) {
-                    currentTempSelection.push(slot);
-                    el.classList.add('selected-temp');
-                    found++;
-                }
-            }
-        }
-    });
-    if(found > 0) showToast(`Added ${found} available slots! ✨`);
-}
-
 function showToast(msg) {
     const toast = document.getElementById('toast');
     if(msg) toast.innerText = msg;
@@ -362,16 +340,6 @@ function toggleOverlay() {
         }
         overlay.style.display = 'flex';
     }
-}
-
-function copyCourseList() {
-    if (assignedSubjects.length === 0) return alert("No courses registered yet!");
-    let text = `--- MY COURSE LIST (Draft ${currentVersion}) ---\n\n`;
-    assignedSubjects.forEach((s, i) => {
-        text += `${i+1}. ${s.name} [${s.credits} CR]\n   Faculty: ${s.fac}\n   Venue: ${s.venue}\n   Slots: ${s.slots.join('-')}\n\n`;
-    });
-    text += `TOTAL CREDITS: ${assignedSubjects.reduce((acc, s) => acc + s.credits, 0)}/29`;
-    navigator.clipboard.writeText(text).then(() => showToast("Course List Copied! 📋"));
 }
 
 function saveData() { localStorage.setItem(`vit_ffcs_v${currentVersion}`, JSON.stringify(assignedSubjects)); }
@@ -418,6 +386,14 @@ async function downloadPDF() {
     pdf.save(`Draft${currentVersion}.pdf`);
 }
 
-// Start Application
+function toggleHowToUse() {
+    const overlay = document.getElementById('howToUseOverlay');
+    if (overlay.style.display === 'flex') {
+        overlay.style.display = 'none';
+    } else {
+        overlay.style.display = 'flex';
+    }
+}
 
+// Start Application
 init();
