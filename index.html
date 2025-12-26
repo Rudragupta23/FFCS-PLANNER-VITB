@@ -7,11 +7,47 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div id="toast" class="toast">Action Successful! ✅</div>
+
+    <div id="howToUseOverlay" class="overlay">
+        <div class="overlay-content glass-card how-to-card">
+            <div class="overlay-header">
+                <h2 class="section-heading" style="margin:0;">How to Use</h2>
+                <button class="close-btn" onclick="toggleHowToUse()">×</button>
+            </div>
+            <div class="instruction-list">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-text">
+                        <strong>Enter Details:</strong> Fill in the Subject Name, Faculty, Venue, and Credits in the sidebar.
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-text">
+                        <strong>Select Slots:</strong>Click directly on the grid cells to select your desired slots on the timetable grid to highlight them; once finished, click "Assign to Grid" to finalize the entry.
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-text">
+                        <strong>Manage Drafts:</strong> Use Draft 1, 2, and 3 to create different schedule options without losing data.
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div class="step-text">
+                        <strong>Export & Share:</strong> Download your plan as a PNG/PDF or click "Share Draft Link" to send your schedule to friends!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="coursesOverlay" class="overlay">
         <div class="overlay-content glass-card">
@@ -65,6 +101,7 @@
             </div>
 
             <div class="nav-actions">
+                <button class="nav-btn-link animate-btn" onclick="toggleHowToUse()" style="border-color: #7c3aed; color: #a78bfa;">How to Use?</button>
                 <div class="nav-stats">
                     <div class="stat-badge">Credits: <b id="creditCount">0</b> / 29</div>
                     <div class="stat-badge">Courses: <b id="courseCount">0</b></div>
@@ -98,11 +135,6 @@
                     </select>
                 </div>
                 <div class="field">
-                    <label>Faculty Slots</label>
-                    <input type="text" id="prefSlots" placeholder="e.g. A11-A12-A13">
-                    <button onclick="suggestSlots()" class="btn-outline animate-btn" style="margin-top:8px; font-size:0.75rem; padding:8px; border-color:var(--neon); width: 100%;">Check Availability</button>
-                </div>
-                <div class="field">
                     <label>Credits</label>
                     <select id="courseCredits">
                         <option value="4">4 Credits</option>
@@ -115,9 +147,11 @@
             </div>
 
             <div class="action-section">
-                <button onclick="copyCourseList()" class="btn-outline full-width animate-btn" style="border-color: var(--neon);">📋 Copy Course List</button>
                 <button onclick="generateShareLink()" class="btn-share-vibrant animate-btn">
                 🔗 SHARE DRAFT LINK
+                </button>
+                <button onclick="window.print()" class="btn-outline full-width animate-btn" style="border-color: #10b981; color: #10b981;">
+                🖨️ Print Timetable
                 </button>
                 <button onclick="downloadPNG()" class="btn-outline full-width animate-btn">Export in PNG</button>
                 <button onclick="downloadPDF()" class="btn-outline full-width animate-btn">Export in PDF</button>
@@ -165,10 +199,43 @@
         </main>
     </div>
 
-    <footer>
-        <div class="footer-container">
-            <p>&copy; 2025 FFCS PLANNER-VITB | Select smart. Study better.</p>
-            <p>Made with ❤️ for VITians | <span class="author">Rudra Gupta</span></p>
+    <footer class="footer glass-card">
+        <div class="footer-grid">
+            <div class="footer-col branding">
+                <div class="nav-logo">
+                    <img src="logo.png" alt="FFCS Logo" class="site-logo">
+                    <span>FFCS PLANNER-VITB</span>
+                </div>
+                <p>"The all-in-one FFCS companion featuring real-time clash detection, building-change alerts, and multi-draft management for a seamless registration experience."</p>
+                <p class="copyright">&copy; 2025 FFCS PLANNER-VITB | Rudra Gupta</p>
+            </div>
+
+            <div class="footer-col contact">
+                <h4>Contact Us</h4>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <a href="https://www.google.com/maps/search/?api=1&query=VIT%20Bhopal%20University" target="_blank">VIT Bhopal University, Bhopal, India</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:+919896800458">+91-98968 00458</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:23rudragupta@gmail.com">23rudragupta@gmail.com</a>
+                </div>
+            </div>
+
+            <div class="footer-col social">
+                <h4>Follow Me</h4>
+                <div class="social-links">
+                    <a href="https://github.com/Rudragupta23" target="_blank" class="social-btn github"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/rudrag23" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/rud.ra_23/" target="_blank" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@rudrag05" target="_blank" class="social-btn youtube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p class="made-with">Made with ❤️ for VITians</p>
+            </div>
         </div>
     </footer>
 
