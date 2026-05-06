@@ -212,7 +212,7 @@ function assignSubject() {
     const credits = parseInt(document.getElementById('courseCredits').value);
     
     const currentTotal = assignedSubjects.reduce((acc, s) => acc + (s.id === editingId ? 0 : s.credits), 0);
-    if (currentTotal + credits > 29) return alert("⚠️ Credit Limit Exceeded! Max is 29.");
+    if (currentTotal + credits > 31) return alert("⚠️ Credit Limit Exceeded! Max is 31.");
     if (!subInput.value.trim() || !facInput.value.trim() || currentTempSelection.length === 0) {
         return alert("Fill all subject details and select slots!");
     }
