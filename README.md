@@ -1,4 +1,4 @@
-# FFCS Planner - VIT Bhopal
+# FFCS Planner - Vellore Institute of Technology, Bhopal
 An interactive web application designed to help VIT Bhopal students plan their course schedules efficiently during the Fully Flexible Credit System (FFCS) registration.
 
 Website link - [www.ffcsplannervitb.com](https://ffcsplannervitb.vercel.app/)
